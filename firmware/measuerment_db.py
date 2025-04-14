@@ -25,6 +25,7 @@ class MeasurementDB:
 
         def write(self, measurement: str, **kwargs):
             # encode the measurement into the InfluxDB line protocol
-            fields_string = ",".join(f"{key}={value}" for key, value in kwargs.items())
+            fields_string = ",".join(f"{key}={value:.2f}" for key, value in kwargs.items())
             line = f"{measurement} {fields_string} {int(time.time())}\n"
+            print("measurements:", line)
             self.input.write(line.encode())

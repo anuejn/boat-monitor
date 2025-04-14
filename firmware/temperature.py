@@ -1,11 +1,13 @@
 import machine
-import utime
 
 sensor_temp = machine.ADC(4)
 conversion_factor = 3.3 / (65535)
 
 def read_temperature():
-    reading = sensor_temp.read_u16() * conversion_factor
+    reading = 0
+    for _ in range(256):
+        reading += sensor_temp.read_u16() * conversion_factor
+    reading /= 256
 
     # The temperature sensor measures the Vbe voltage of a biased bipolar diode, connected to the fifth ADC channel
     # Typically, Vbe = 0.706V at 27 degrees C, with a slope of -1.721mV (0.001721) per degree.
